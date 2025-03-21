@@ -1,0 +1,21 @@
+`timescale 1ns / 1ps
+module clockdivider (
+    input clk,       // Fast input clock
+    input rst,       
+    output reg led , 
+    output reg cout // LED output
+);
+    reg [27:0] count; 
+       // 28-bit counter to divide the clock
+
+    always @(posedge clk or negedge rst) begin
+        if (rst) begin
+            count <= 0;       // Reset the counter
+            led <= 0;         // Turn off the LED
+        end else if (count == 50000000) begin
+            count <= 0;       // Reset the counter when it reaches the target
+            led <= ~led;      // Toggle the LED state
+        end else begin
+            count <= count + 1; // Increment the counter
+        end
+    end
